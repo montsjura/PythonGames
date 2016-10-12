@@ -1,5 +1,26 @@
-def probability(dice_number, sides, target):
-    return 0.0
+import math
+
+# Formula found and explained here
+# http://www.lucamoroni.it/the-dice-roll-sum-problem/
+def comb(n, k):
+        return math.factorial(n)/(math.factorial(k)*math.factorial(n-k))
+
+def probability(dices, sides, target):
+    # Case not possible
+    if target > dices * sides:
+        return 0
+
+    # Find the Kmax
+    kmax = math.floor((target - dices) / sides)
+
+    # Find the amount of the event
+    sum = 0
+
+    for k in range(kmax+1):
+        sum += ((-1)**k)*comb(dices,k)*comb(target-sides*k-1,target-sides*k-dices)
+
+    print(round(sum/(sides**dices), 4))
+    return round(sum/(sides**dices), 4)
 
 
 if __name__ == '__main__':
